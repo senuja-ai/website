@@ -1,24 +1,36 @@
-name: Generate Gallery
+name: Generate Gallery JSON
+
 on:
   push:
     paths:
       - 'photos/**'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Generate Gallery Data
-        run: |
-          node .github/scripts/generate-data.js
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
           
-      - name: Commit changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add js/gallery-data.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update gallery data"
-          git push
+      - name: Generate gallery data
+        run: node .github/scripts/generate-data.js
+        
+      - name: Commit and push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update gallery data"
+          file_pattern: "js/gallery-data.json"
+          branch: ${{ github.ref }}
