@@ -6,9 +6,6 @@ on:
       - 'photos/**'
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,8 +14,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+          token: ${{ secrets.PAT }}
         
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -29,8 +25,9 @@ jobs:
         run: node .github/scripts/generate-data.js
         
       - name: Commit and push
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Auto-update gallery data"
-          file_pattern: "js/gallery-data.json"
-          branch: ${{ github.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add js/gallery-data.json
+          git commit -m "Update gallery data" || exit 0
+          git push
