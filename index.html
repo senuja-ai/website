@@ -14,7 +14,6 @@
             --neon-blue: #05d9e8;
             --neon-purple: #b026ff;
             --dark-bg: #0d0221;
-            --glass: rgba(255, 255, 255, 0.05);
         }
 
         body {
@@ -22,14 +21,13 @@
             background-color: var(--dark-bg);
             color: #fff;
             overflow-x: hidden;
-            cursor: none; /* Custom cursor */
+            cursor: none;
         }
 
         h1, h2, h3 {
             font-family: 'Syne', sans-serif;
         }
 
-        /* Custom Cursor */
         .cursor-dot,
         .cursor-outline {
             position: fixed;
@@ -62,7 +60,6 @@
             backdrop-filter: blur(2px);
         }
 
-        /* Noise Overlay */
         .noise {
             position: fixed;
             top: 0;
@@ -75,7 +72,6 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Glitch Effect */
         .glitch-wrapper {
             position: relative;
             display: inline-block;
@@ -134,7 +130,6 @@
             100% { clip: rect(32px, 9999px, 85px, 0); }
         }
 
-        /* Masonry Grid */
         .gallery-container {
             column-count: 1;
             column-gap: 1.5rem;
@@ -179,7 +174,6 @@
             opacity: 1;
         }
 
-        /* Lightbox */
         #lightbox {
             position: fixed;
             inset: 0;
@@ -212,7 +206,6 @@
             transform: scale(1);
         }
 
-        /* Marquee */
         .marquee-container {
             overflow: hidden;
             white-space: nowrap;
@@ -227,7 +220,6 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Grainy Button */
         .cyber-btn {
             position: relative;
             padding: 1rem 2rem;
@@ -246,7 +238,18 @@
             box-shadow: 0 0 20px var(--neon-blue);
         }
 
-        /* Floating particles */
+        .event-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+        .event-card:hover {
+            border-color: var(--neon-pink);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(255, 42, 109, 0.2);
+        }
+
         .particle {
             position: absolute;
             background: var(--neon-pink);
@@ -258,31 +261,20 @@
 </head>
 <body class="selection:bg-[#ff2a6d] selection:text-white">
 
-    <!-- Custom Cursor -->
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
-
-    <!-- Noise Overlay -->
     <div class="noise"></div>
 
-    <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center mix-blend-difference text-white">
-        <div class="text-2xl font-bold font-['Syne'] tracking-tighter hover-trigger" data-cursor="hover">2i_2027</div>
+        <a href="index.html" class="text-2xl font-bold font-['Syne'] tracking-tighter hover-trigger" data-cursor="hover">2i_2027</a>
         <div class="hidden md:flex gap-8 text-sm font-medium tracking-widest uppercase">
             <a href="#gallery" class="hover:text-[#ff2a6d] transition-colors hover-trigger" data-cursor="hover">Gallery</a>
             <a href="#events" class="hover:text-[#05d9e8] transition-colors hover-trigger" data-cursor="hover">Events</a>
             <a href="#about" class="hover:text-[#b026ff] transition-colors hover-trigger" data-cursor="hover">The Class</a>
         </div>
-        <button class="md:hidden text-white hover-trigger" data-cursor="hover">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
-            </svg>
-        </button>
     </nav>
 
-    <!-- Hero Section -->
     <header class="relative min-h-screen flex flex-col justify-center items-center px-4 overflow-hidden">
-        <!-- Background Elements -->
         <div class="absolute inset-0 z-0">
             <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[#ff2a6d] rounded-full mix-blend-screen filter blur-[128px] opacity-20 animate-pulse"></div>
             <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#05d9e8] rounded-full mix-blend-screen filter blur-[128px] opacity-20 animate-pulse" style="animation-delay: 1s;"></div>
@@ -290,11 +282,9 @@
 
         <div class="z-10 text-center relative">
             <p class="text-[#05d9e8] text-sm md:text-base tracking-[0.5em] uppercase mb-4 opacity-0 translate-y-10" id="hero-subtitle">International Baccalaureate</p>
-            
             <div class="glitch-wrapper mb-6">
                 <h1 class="glitch" data-text="CLASS 2i">CLASS 2i</h1>
             </div>
-            
             <div class="flex items-center justify-center gap-4 text-2xl md:text-4xl font-bold font-['Syne'] opacity-0 translate-y-10" id="hero-year">
                 <span class="w-12 h-[2px] bg-white/50"></span>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ff2a6d] to-[#05d9e8]">COHORT 2027</span>
@@ -310,7 +300,6 @@
         </div>
     </header>
 
-    <!-- Marquee Separator -->
     <div class="py-8 border-y border-white/10 bg-black/20 backdrop-blur-sm rotate-1 scale-105 z-20 relative">
         <div class="marquee-container">
             <div class="marquee-content text-4xl font-['Syne'] font-bold text-white/10">
@@ -319,73 +308,38 @@
         </div>
     </div>
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="py-24 px-4 md:px-8 max-w-7xl mx-auto relative z-10">
+    <!-- Events Section -->
+    <section id="events" class="py-24 px-4 md:px-8 max-w-7xl mx-auto relative z-10">
+        <h2 class="text-5xl md:text-7xl font-bold mb-12 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">EVENTS</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="events-grid">
+            <!-- Event cards generated by JS -->
+        </div>
+    </section>
+
+    <!-- Main Gallery -->
+    <section id="gallery" class="py-24 px-4 md:px-8 max-w-7xl mx-auto relative z-10 border-t border-white/10">
         <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>
                 <h2 class="text-5xl md:text-7xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/50">VISUAL ARCHIVE</h2>
-                <p class="text-gray-400 max-w-md">Captured moments from the chaos, the cramming, and the celebration. The visual diary of Class 2i.</p>
+                <p class="text-gray-400 max-w-md">All photos from every moment. Click filters to sort.</p>
             </div>
-            
-            <!-- Filters -->
             <div class="flex flex-wrap gap-2" id="filters">
                 <button class="filter-btn active px-4 py-2 rounded-full border border-white/20 hover:border-[#ff2a6d] hover:text-[#ff2a6d] transition-all text-sm uppercase tracking-wider bg-white/5 backdrop-blur-sm" data-filter="all">All</button>
-                <button class="filter-btn px-4 py-2 rounded-full border border-white/20 hover:border-[#05d9e8] hover:text-[#05d9e8] transition-all text-sm uppercase tracking-wider bg-white/5 backdrop-blur-sm" data-filter="party">Parties</button>
-                <button class="filter-btn px-4 py-2 rounded-full border border-white/20 hover:border-[#b026ff] hover:text-[#b026ff] transition-all text-sm uppercase tracking-wider bg-white/5 backdrop-blur-sm" data-filter="study">Study Grind</button>
-                <button class="filter-btn px-4 py-2 rounded-full border border-white/20 hover:border-[#ff2a6d] hover:text-[#ff2a6d] transition-all text-sm uppercase tracking-wider bg-white/5 backdrop-blur-sm" data-filter="cas">CAS</button>
+                <!-- Dynamic event filters added by JS -->
             </div>
         </div>
 
-        <!-- Masonry Grid -->
-        <div class="gallery-container" id="gallery-grid">
-            <!-- Items injected via JS -->
-        </div>
-        
-        <div class="mt-16 text-center">
-            <button id="load-more" class="cyber-btn hover-trigger" data-cursor="hover">
-                Load More Memories
-            </button>
-        </div>
+        <div class="gallery-container" id="gallery-grid"></div>
     </section>
 
-    <!-- Stats / Info Section -->
-    <section class="py-20 bg-[#0a0118] border-t border-white/5 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#ff2a6d]/5 to-transparent pointer-events-none"></div>
-        <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div class="p-6 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm hover:border-[#05d9e8]/50 transition-colors group">
-                <div class="text-4xl font-bold text-[#05d9e8] mb-2 group-hover:scale-110 transition-transform">55</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500">Students</div>
-            </div>
-            <div class="p-6 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm hover:border-[#ff2a6d]/50 transition-colors group">
-                <div class="text-4xl font-bold text-[#ff2a6d] mb-2 group-hover:scale-110 transition-transform">7</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500">Subjects</div>
-            </div>
-            <div class="p-6 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm hover:border-[#b026ff]/50 transition-colors group">
-                <div class="text-4xl font-bold text-[#b026ff] mb-2 group-hover:scale-110 transition-transform">4000+</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500">Hours Studied</div>
-            </div>
-            <div class="p-6 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm hover:border-white/50 transition-colors group">
-                <div class="text-4xl font-bold text-white mb-2 group-hover:scale-110 transition-transform">∞</div>
-                <div class="text-xs uppercase tracking-widest text-gray-500">Memories</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer class="py-12 border-t border-white/10 text-center relative z-10 bg-[#0d0221]">
         <h3 class="text-2xl font-['Syne'] font-bold mb-4">CLASS 2i // 2027</h3>
-        <p class="text-gray-500 text-sm mb-8">Designed for the archives. Made with caffeine and chaos.</p>
-        <div class="flex justify-center gap-6 text-gray-400">
-            <a href="#" class="hover:text-[#ff2a6d] transition-colors">Instagram</a>
-            <a href="#" class="hover:text-[#05d9e8] transition-colors">Drive</a>
-            <a href="#" class="hover:text-[#b026ff] transition-colors">Contact</a>
-        </div>
+        <p class="text-gray-500 text-sm mb-8">Drop photos in the GitHub folders to add them automatically.</p>
         <div class="mt-12 text-xs text-gray-700 uppercase tracking-widest">
             &copy; 2024-2027 International Baccalaureate
         </div>
     </footer>
 
-    <!-- Lightbox Modal -->
     <div id="lightbox" onclick="closeLightbox()">
         <button class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors z-50" onclick="event.stopPropagation(); closeLightbox()">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
@@ -399,128 +353,116 @@
     </div>
 
     <script>
-        // --- Data ---
-        const images = [
-            { url: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1000&auto=format&fit=crop', category: 'party', title: 'Freshers Intro Night', date: 'Sept 2025' },
-            { url: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1000&auto=format&fit=crop', category: 'study', title: 'Library Lock-in', date: 'Oct 2025' },
-            { url: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1000&auto=format&fit=crop', category: 'cas', title: 'Beach Cleanup', date: 'Nov 2025' },
-            { url: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop', category: 'party', title: 'Halloween Bash', date: 'Oct 2025' },
-            { url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1000&auto=format&fit=crop', category: 'study', title: 'Group Study Session', date: 'Dec 2025' },
-            { url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1000&auto=format&fit=crop', category: 'cas', title: 'MUN Conference', date: 'Jan 2026' },
-            { url: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?q=80&w=1000&auto=format&fit=crop', category: 'party', title: 'Winter Formal', date: 'Dec 2025' },
-            { url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1000&auto=format&fit=crop', category: 'study', title: 'Exam Prep', date: 'Apr 2026' },
-            { url: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1000&auto=format&fit=crop', category: 'cas', title: 'Charity Run', date: 'Mar 2026' },
-            { url: 'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?q=80&w=1000&auto=format&fit=crop', category: 'party', title: 'Birthday Celebrations', date: 'Feb 2026' },
-            { url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1000&auto=format&fit=crop', category: 'study', title: 'Science Lab', date: 'May 2026' },
-            { url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1000&auto=format&fit=crop', category: 'party', title: 'End of Year Party', date: 'Jun 2026' },
-        ];
+        // Gallery Data - Loaded from JSON or defined here
+        let galleryData = {};
+        
+        // Try to load from JSON file, fallback to empty
+        async function loadGalleryData() {
+            try {
+                const response = await fetch('js/gallery-data.json');
+                galleryData = await response.json();
+            } catch (e) {
+                console.log('No gallery-data.json found, using empty data');
+                galleryData = { all: [] };
+            }
+            initGallery();
+        }
 
-        // --- Initialization ---
-        document.addEventListener('DOMContentLoaded', () => {
+        function initGallery() {
+            renderEvents();
+            renderFilters();
+            renderGallery('all');
             initCursor();
             initAnimations();
-            renderGallery('all');
-            initFilters();
             createParticles();
-        });
+        }
 
-        // --- Custom Cursor ---
-        function initCursor() {
-            const dot = document.querySelector('.cursor-dot');
-            const outline = document.querySelector('.cursor-outline');
-
-            window.addEventListener('mousemove', (e) => {
-                const posX = e.clientX;
-                const posY = e.clientY;
-
-                // Dot follows immediately
-                dot.style.left = `${posX}px`;
-                dot.style.top = `${posY}px`;
-
-                // Outline follows with delay (using simple animation for smoothness)
-                outline.animate({
-                    left: `${posX}px`,
-                    top: `${posY}px`
-                }, { duration: 500, fill: "forwards" });
-            });
-
-            // Hover effects
-            document.body.addEventListener('mouseover', (e) => {
-                if (e.target.closest('.hover-trigger') || e.target.closest('.gallery-item')) {
-                    outline.classList.add('hovered');
-                } else {
-                    outline.classList.remove('hovered');
-                }
+        function renderEvents() {
+            const grid = document.getElementById('events-grid');
+            const events = Object.keys(galleryData).filter(k => k !== 'all');
+            
+            events.forEach(eventKey => {
+                const photos = galleryData[eventKey];
+                if (!photos.length) return;
+                
+                const card = document.createElement('a');
+                card.href = `events/${eventKey}.html`;
+                card.className = 'event-card rounded-2xl p-6 block hover-trigger';
+                card.setAttribute('data-cursor', 'hover');
+                
+                // Get first image as preview
+                const preview = photos[0];
+                
+                card.innerHTML = `
+                    <div class="aspect-video rounded-lg overflow-hidden mb-4 bg-gray-800">
+                        <img src="${preview.url}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="${eventKey}">
+                    </div>
+                    <h3 class="text-2xl font-bold font-['Syne'] mb-2 capitalize">${eventKey.replace(/-/g, ' ')}</h3>
+                    <p class="text-gray-400 text-sm">${photos.length} photos</p>
+                    <div class="mt-4 flex items-center text-[#05d9e8] text-sm font-medium">
+                        View Gallery 
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
         }
 
-        // --- GSAP Animations ---
-        function initAnimations() {
-            gsap.registerPlugin(ScrollTrigger);
-
-            // Hero Text Reveal
-            gsap.to("#hero-subtitle", {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: 0.5,
-                ease: "power3.out"
+        function renderFilters() {
+            const container = document.getElementById('filters');
+            const events = Object.keys(galleryData).filter(k => k !== 'all');
+            
+            events.forEach(event => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn px-4 py-2 rounded-full border border-white/20 hover:border-[#05d9e8] hover:text-[#05d9e8] transition-all text-sm uppercase tracking-wider bg-white/5 backdrop-blur-sm';
+                btn.setAttribute('data-filter', event);
+                btn.textContent = event.replace(/-/g, ' ');
+                container.appendChild(btn);
             });
-
-            gsap.to("#hero-year", {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: 0.8,
-                ease: "power3.out"
-            });
-
-            // Glitch effect randomization
-            setInterval(() => {
-                const glitch = document.querySelector('.glitch');
-                if(Math.random() > 0.9) {
-                    glitch.style.textShadow = `${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px var(--neon-pink)`;
-                    setTimeout(() => {
-                        glitch.style.textShadow = 'none';
-                    }, 100);
-                }
-            }, 2000);
+            
+            initFilters();
         }
 
-        // --- Gallery Logic ---
         function renderGallery(filter) {
             const grid = document.getElementById('gallery-grid');
-            grid.innerHTML = ''; // Clear existing
-
-            const filteredImages = filter === 'all' ? images : images.filter(img => img.category === filter);
-
-            filteredImages.forEach((img, index) => {
+            grid.innerHTML = '';
+            
+            let photos = [];
+            if (filter === 'all') {
+                // Combine all photos
+                Object.values(galleryData).forEach(arr => photos.push(...arr));
+            } else {
+                photos = galleryData[filter] || [];
+            }
+            
+            // Shuffle for visual variety
+            photos = photos.sort(() => Math.random() - 0.5);
+            
+            photos.forEach((img, index) => {
                 const item = document.createElement('div');
                 item.className = 'gallery-item hover-trigger';
                 item.setAttribute('data-cursor', 'hover');
                 item.innerHTML = `
                     <img src="${img.url}" alt="${img.title}" loading="lazy" onclick="openLightbox('${img.url}', '${img.title}')">
                     <div class="overlay">
-                        <h3 class="text-xl font-bold font-['Syne'] text-white translate-y-4 group-hover:translate-y-0 transition-transform">${img.title}</h3>
-                        <p class="text-sm text-[#05d9e8] uppercase tracking-wider">${img.date}</p>
+                        <h3 class="text-xl font-bold font-['Syne'] text-white translate-y-4 group-hover:translate-y-0 transition-transform capitalize">${img.title}</h3>
+                        <p class="text-sm text-[#05d9e8] uppercase tracking-wider">${img.date || '2026'}</p>
                     </div>
                 `;
                 
-                // Staggered Animation on Scroll
-                gsap.fromTo(item, 
-                    { opacity: 0, y: 50 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.6,
-                        delay: index * 0.1,
-                        scrollTrigger: {
-                            trigger: item,
-                            start: "top 85%",
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(item, 
+                        { opacity: 0, y: 50 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.6,
+                            delay: (index % 10) * 0.1,
+                            scrollTrigger: { trigger: item, start: "top 85%" }
                         }
-                    }
-                );
-
+                    );
+                }
+                
                 grid.appendChild(item);
             });
         }
@@ -529,78 +471,93 @@
             const buttons = document.querySelectorAll('.filter-btn');
             buttons.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Update active state
                     buttons.forEach(b => {
                         b.classList.remove('active', 'bg-[#ff2a6d]', 'text-white', 'border-[#ff2a6d]');
                         b.classList.add('bg-white/5');
                     });
                     btn.classList.remove('bg-white/5');
                     btn.classList.add('active', 'bg-[#ff2a6d]', 'text-white', 'border-[#ff2a6d]');
-                    
-                    // Filter
                     renderGallery(btn.dataset.filter);
                 });
             });
-            
-            // Set initial active style
-            const allBtn = document.querySelector('[data-filter="all"]');
-            allBtn.classList.add('bg-[#ff2a6d]', 'text-white', 'border-[#ff2a6d]');
-            allBtn.classList.remove('bg-white/5');
         }
 
-        // --- Lightbox ---
+        function initCursor() {
+            const dot = document.querySelector('.cursor-dot');
+            const outline = document.querySelector('.cursor-outline');
+
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+                dot.style.left = `${posX}px`;
+                dot.style.top = `${posY}px`;
+                outline.animate({
+                    left: `${posX}px`,
+                    top: `${posY}px`
+                }, { duration: 500, fill: "forwards" });
+            });
+
+            document.body.addEventListener('mouseover', (e) => {
+                if (e.target.closest('.hover-trigger')) {
+                    outline.classList.add('hovered');
+                } else {
+                    outline.classList.remove('hovered');
+                }
+            });
+        }
+
+        function initAnimations() {
+            if (typeof gsap === 'undefined') return;
+            gsap.registerPlugin(ScrollTrigger);
+            
+            gsap.to("#hero-subtitle", { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: "power3.out" });
+            gsap.to("#hero-year", { opacity: 1, y: 0, duration: 1, delay: 0.8, ease: "power3.out" });
+        }
+
         function openLightbox(url, caption) {
             const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
             const cap = document.getElementById('lightbox-caption');
-            
             img.src = url;
             cap.textContent = caption;
             lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            document.body.style.overflow = 'hidden';
         }
 
         function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.remove('active');
+            document.getElementById('lightbox').classList.remove('active');
             document.body.style.overflow = '';
         }
 
-        // Close on Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeLightbox();
         });
 
-        // --- Particles ---
         function createParticles() {
             const container = document.body;
-            const particleCount = 20;
-
-            for (let i = 0; i < particleCount; i++) {
+            for (let i = 0; i < 20; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
-                
-                // Random positioning and sizing
                 const size = Math.random() * 4 + 1;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${Math.random() * 100}vw`;
-                particle.style.top = `${Math.random() * 100}vh`;
-                
-                // Animation
-                const duration = Math.random() * 20 + 10;
-                particle.style.transition = `top ${duration}s linear, opacity ${duration}s ease`;
-                
+                particle.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${Math.random() * 100}vw;
+                    top: ${Math.random() * 100}vh;
+                    transition: top ${Math.random() * 20 + 10}s linear, opacity ${Math.random() * 20 + 10}s ease;
+                `;
                 container.appendChild(particle);
-
-                // Animate loop
+                
                 setInterval(() => {
                     particle.style.top = `${Math.random() * 100}vh`;
                     particle.style.left = `${Math.random() * 100}vw`;
                     particle.style.opacity = Math.random() * 0.5;
-                }, duration * 1000);
+                }, (Math.random() * 20 + 10) * 1000);
             }
         }
+
+        // Start
+        loadGalleryData();
     </script>
 </body>
 </html>
