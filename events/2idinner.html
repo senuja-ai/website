@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2i Dinner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent-1: #ff2a6d;
+            --accent-2: #05d9e8;
+            --dark-bg: #0d0221;
+        }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        h1, h2, h3 { font-family: 'Syne', sans-serif; }
+        
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
+        }
+        .cursor-dot { width: 8px; height: 8px; background: var(--accent-1); }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid var(--accent-2);
+            transition: all 0.2s;
+        }
+        body:hover .cursor-outline.hovered {
+            width: 80px; height: 80px;
+            background: rgba(5, 217, 232, 0.1);
+            border-color: var(--accent-1);
+        }
+        
+        .gallery-container {
+            column-count: 1; column-gap: 1rem;
+        }
+        @media (min-width: 640px) { .gallery-container { column-count: 2; } }
+        @media (min-width: 1024px) { .gallery-container { column-count: 3; } }
+        
+        .gallery-item {
+            break-inside: avoid; margin-bottom: 1rem;
+            position: relative; overflow: hidden;
+            border-radius: 8px;
+        }
+        .gallery-item img {
+            width: 100%; height: auto; display: block;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+        
+        .overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(13,2,33,0.9), transparent);
+            opacity: 0; transition: opacity 0.3s;
+            display: flex; align-items: flex-end; padding: 1rem;
+        }
+        .gallery-item:hover .overlay { opacity: 1; }
+        
+        #lightbox {
+            position: fixed; inset: 0; z-index: 10000;
+            background: rgba(13,2,33,0.95); backdrop-filter: blur(10px);
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        #lightbox.active { display: flex; opacity: 1; }
+        .lightbox-img {
+            max-height: 90vh; max-width: 90vw;
+            object-fit: contain; border-radius: 8px;
+        }
+        
+        .back-btn {
+            position: fixed; top: 2rem; left: 2rem; z-index: 50;
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 9999px;
+            color: white; text-decoration: none;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: var(--accent-1);
+            border-color: var(--accent-1);
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    
+    <a href="../index.html" class="back-btn hover-trigger" data-cursor="hover">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back
+    </a>
+
+    <header class="min-h-[50vh] flex items-center justify-center pt-20 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/4 w-64 h-64 bg-[var(--accent-1)] rounded-full filter blur-[100px] opacity-20"></div>
+        
+        <div class="text-center z-10 px-4">
+            <p class="text-[var(--accent-2)] text-sm tracking-[0.3em] uppercase mb-4">Class 2i // 2027</p>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold font-['Syne'] uppercase" id="event-title">
+                EVENT NAME
+            </h1>
+            <p class="text-gray-400 mt-4 text-lg" id="photo-count">Loading...</p>
+        </div>
+    </header>
+
+    <main class="px-4 md:px-8 pb-24 max-w-[1400px] mx-auto">
+        <div class="gallery-container" id="gallery-grid"></div>
+    </main>
+
+    <div id="lightbox" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-white/50 hover:text-white" onclick="event.stopPropagation(); closeLightbox()">
+            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <img id="lightbox-img" class="lightbox-img" src="" onclick="event.stopPropagation()">
+        <div class="absolute bottom-10 left-0 w-full text-center pointer-events-none">
+            <p id="lightbox-caption" class="text-white/80 font-['Syne'] text-xl"></p>
+        </div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════
+        // ONLY CHANGE THIS LINE FOR EACH EVENT
+        // ═══════════════════════════════════════════════════════
+        const EVENT_NAME = 'dinner-party'; // Options: 'halloween-party', 'dinner-party', 'prom', etc.
+        // ═══════════════════════════════════════════════════════
+        
+        // Auto-format display name (dinner-party → Dinner Party)
+        const DISPLAY_NAME = EVENT_NAME.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        document.getElementById('event-title').textContent = DISPLAY_NAME;
+        document.title = `${DISPLAY_NAME} | 2i 2027`;
+        
+        async function loadPhotos() {
+            try {
+                const response = await fetch('../js/gallery-data.json');
+                const data = await response.json();
+                const photos = data[EVENT_NAME] || [];
+                
+                document.getElementById('photo-count').textContent = 
+                    photos.length ? `${photos.length} memories captured` : 'No photos yet';
+                
+                const grid = document.getElementById('gallery-grid');
+                
+                if (!photos.length) {
+                    grid.innerHTML = `
+                        <div class="col-span-full text-center py-20">
+                            <p class="text-gray-500 text-xl mb-4">No photos found</p>
+                            <p class="text-gray-600">Upload photos to <code>photos/${EVENT_NAME}/</code> folder</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                photos.forEach((img, i) => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item hover-trigger';
+                    item.setAttribute('data-cursor', 'hover');
+                    item.innerHTML = `
+                        <img src="../${img.url}" alt="${img.title}" loading="lazy" 
+                             onclick="openLightbox('../${img.url}', '${img.title}')">
+                        <div class="overlay">
+                            <span class="text-sm font-medium text-white/90">${img.title}</span>
+                        </div>
+                    `;
+                    
+                    // Stagger animation
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        item.style.transition = 'all 0.5s ease';
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, i * 80);
+                    
+                    grid.appendChild(item);
+                });
+                
+            } catch (e) {
+                console.error('Error:', e);
+                document.getElementById('gallery-grid').innerHTML = 
+                    '<p class="text-center text-red-500 py-20">Error loading photos</p>';
+            }
+        }
+
+        function initCursor() {
+            const dot = document.querySelector('.cursor-dot');
+            const outline = document.querySelector('.cursor-outline');
+            
+            window.addEventListener('mousemove', (e) => {
+                dot.style.left = e.clientX + 'px';
+                dot.style.top = e.clientY + 'px';
+                outline.style.left = e.clientX + 'px';
+                outline.style.top = e.clientY + 'px';
+            });
+            
+            document.body.addEventListener('mouseover', (e) => {
+                outline.classList.toggle('hovered', e.target.closest('.hover-trigger'));
+            });
+        }
+
+        function openLightbox(url, caption) {
+            document.getElementById('lightbox-img').src = url;
+            document.getElementById('lightbox-caption').textContent = caption || '';
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        loadPhotos();
+        initCursor();
+    </script>
+</body>
+</html>
