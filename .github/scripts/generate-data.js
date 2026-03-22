@@ -33,14 +33,36 @@ function scanFolder(folderPath, folderName) {
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-// Main
-const result = {
-  all: scanFolder(path.join(PHOTOS_DIR, 'all'), 'all'),
-  'halloween-party': scanFolder(path.join(PHOTOS_DIR, 'halloween-party'), 'halloween-party')
-};
+// ═══════════════════════════════════════════════════════
+// AUTO-DETECT ALL FOLDERS (Fixed!)
+// ═══════════════════════════════════════════════════════
+
+const result = {};
+
+// Get ALL folders in photos/ automatically
+const folders = fs.readdirSync(PHOTOS_DIR)
+  .filter(name => {
+    const fullPath = path.join(PHOTOS_DIR, name);
+    return fs.statSync(fullPath).isDirectory();
+  })
+  .sort();
+
+console.log(`📁 Found folders: ${folders.join(', ')}`);
+
+// Scan each folder
+for (const folder of folders) {
+  const folderPath = path.join(PHOTOS_DIR, folder);
+  const images = scanFolder(folderPath, folder);
+  result[folder] = images;
+  console.log(`  ✓ ${folder}: ${images.length} photos`);
+}
 
 // Ensure js folder exists
-if (!fs.existsSync('js')) fs.mkdirSync('js');
+if (!fs.existsSync('js')) fs.mkdirSync('js', { recursive: true });
 
+// Write JSON
 fs.writeFileSync(OUTPUT_FILE, JSON.stringify(result, null, 2));
-console.log(`✅ Generated JSON with ${result.all.length + result['halloween-party'].length} photos`);
+
+const totalPhotos = Object.values(result).flat().length;
+console.log(`\n✅ Generated ${OUTPUT_FILE}`);
+console.log(`📊 Total: ${totalPhotos} photos in ${folders.length} folders`);
